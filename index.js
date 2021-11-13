@@ -23,6 +23,7 @@ function beginQuestions() {
             message: 'What would you like to do?',
             name: 'menuChoice'
         }
+        // View Departments
     ]).then(answer => {
         if(answer.menuChoice === 'View all departments'){
             let sqlQuery = `
@@ -34,6 +35,8 @@ function beginQuestions() {
                 console.table(data);
                 beginQuestions()
             });
+
+         // View Roles   
         }else if(answer.menuChoice === 'View all roles'){
             let sqlQuery = `
             SELECT *
@@ -43,7 +46,9 @@ function beginQuestions() {
                 if(err) throw err;
                 console.table(data);
                 beginQuestions()
-            });    
+            });
+            
+         // View Employees   
         }else if(answer.menuChoice === 'View all employees'){
             let sqlQuery = `
             SELECT *
@@ -54,12 +59,14 @@ function beginQuestions() {
                 console.table(data);
                 beginQuestions()
             });
+
+         // Add Department   
         }else if(answer.menuChoice === 'Add a department'){
             inquirer.prompt([
                 {
                     name: 'addDepartment',
                     type: 'input',
-                    message: 'Department name?.'
+                    message: 'What is the new Department name?'
                 }
             ]).then(addDepartment => {
                 let sqlQuery = `
@@ -71,9 +78,37 @@ function beginQuestions() {
                     console.log('New Department added!');
                     beginQuestions();
                 });
-            })
+            });
+          
+         // Add Role   
         }else if(answer.menuChoice === 'Add a role'){
-            
+            inquirer.prompt([
+                {
+                    name: 'addRole',
+                    type: 'input',
+                    message: 'What is the new Role?'
+                },
+                {
+                    name: 'roleSalary',
+                    type: 'input',
+                    message: "What is the new role's salary?"
+                },
+                {
+                    name: 'roleDepartment',
+                    type: 'input',
+                    message: 'What Department does this role belong to?'
+                }
+            ]).then(addRole => {
+                let sqlQuery = `
+                INSERT INTO role (title, salary, department_id)
+                VALUES (?,?,?)`
+
+                connection.query(sqlQuery, [addRole.addRole, addRole.roleSalary, addRole.roleDepartment], (err, data) => {
+                    if(err) throw err;
+                    console.log('New role added!');
+                    beginQuestions();
+                });
+            });
         }        
     })
 }
