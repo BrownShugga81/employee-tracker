@@ -27,14 +27,53 @@ function beginQuestions() {
         if(answer.menuChoice === 'View all departments'){
             let sqlQuery = `
             SELECT *
-            FROM dog`
+            FROM department`
 
             connection.query(sqlQuery, (err, data) => {
                 if(err) throw err;
                 console.table(data);
-                console.log('\n');
                 beginQuestions()
             });
-        }
+        }else if(answer.menuChoice === 'View all roles'){
+            let sqlQuery = `
+            SELECT *
+            FROM role`
+
+            connection.query(sqlQuery, (err, data) => {
+                if(err) throw err;
+                console.table(data);
+                beginQuestions()
+            });    
+        }else if(answer.menuChoice === 'View all employees'){
+            let sqlQuery = `
+            SELECT *
+            FROM employee`
+
+            connection.query(sqlQuery, (err, data) => {
+                if(err) throw err;
+                console.table(data);
+                beginQuestions()
+            });
+        }else if(answer.menuChoice === 'Add a department'){
+            inquirer.prompt([
+                {
+                    name: 'addDepartment',
+                    type: 'input',
+                    message: 'Department name?.'
+                }
+            ]).then(addDepartment => {
+                let sqlQuery = `
+                INSERT INTO department (name)
+                VALUE (?)`
+
+                connection.query(sqlQuery, addDepartment.addDepartment, (err, data) => {
+                    if(err) throw err;
+                    console.log('New Department added!');
+                    beginQuestions();
+                });
+            })
+        }else if(answer.menuChoice === 'Add a role'){
+            
+        }        
     })
 }
