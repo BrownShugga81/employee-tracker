@@ -8,3 +8,4 @@ Employee-tracker is an application used fro keeping track of employees, roles, a
 To use this application you will need to first run an npm install in your CLI to install both inquirer and mysql. Then run node index.js in your terminal and follow the prompts.
 
 ## Demo
+![Employee-tracker](/images/employee-tracker.png?raw=true)
